@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+
+import { useState } from 'react';
+import Header from './components/Header';
+import Main from './pages/Main';
+import Details from './pages/Details';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Footer from './components/Footer';
+import Recipe from './components/Recipe';
+import Modal from './components/Modal';
+import Card from './components/Card';
+import Ingredients from './components/Ingredients';
+
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [detail, setDetail] = useState({})
+  const [isToken, setIsToken] = useState({})
+  const [isDark,setIsDark]=useState(false)
+  
+
+  if (isToken.token) {
+    return (
+      <>
+        {<BrowserRouter>
+          <Header setIsDark={setIsDark} />
+          <Routes>
+            <Route path='/' element={<Main setDetail={setDetail} isDark={isDark} />} />
+            <Route path='/details' element={<Details detail={detail} />}
+            />
+            <Route path='/recipe' element={<Recipe detail={detail} />}
+            />
+            <Route path='/ingredients'element={<Ingredients/>}/>
+          </Routes>
+          <Footer />
+        </BrowserRouter>
+        }
+
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Modal setIsToken={setIsToken} />
+      </>
+    )
+  }
+
+
 }
 
 export default App;
